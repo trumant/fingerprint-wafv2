@@ -163,32 +163,6 @@ resource "aws_wafv2_web_acl" "fingerprint_allowlist_webacl" {
   }
 }
 
-// a cloudfront origin request policy to ensure we get the headers we want
-resource "aws_cloudfront_origin_request_policy" "fingerprint_waf" {
-  name = "fingerprint-waf-demo"
-  cookies_config {
-    cookie_behavior = "all"
-  }
-  headers_config {
-    header_behavior = "allViewerAndWhitelistCloudFront"
-    headers {
-      items = [
-        "cloudfront-viewer-asn",
-        "cloudfront-viewer-header-order",
-        "cloudfront-viewer-http-version",
-        "cloudfront-viewer-ja3-fingerprint",
-        "cloudfront-viewer-ja4-fingerprint",
-        "cloudfront-viewer-latitude",
-        "cloudfront-viewer-longitude",
-        "cloudfront-viewer-tls"
-      ]
-    }
-  }
-  query_strings_config {
-    query_string_behavior = "all"
-  }
-}
-
 module "cloudfront" {
   source = "terraform-aws-modules/cloudfront/aws"
 
@@ -231,7 +205,4 @@ module "cloudfront" {
     use_forwarded_values         = false
     response_headers_policy_name = "Managed-SimpleCORS"
   }
-  depends_on = [
-    aws_cloudfront_origin_request_policy.fingerprint_waf
-  ]
 }
