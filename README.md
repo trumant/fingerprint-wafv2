@@ -12,3 +12,7 @@ If the JA3 fingerprint value of the client matchs either `375c6162a492dfbf279590
 or `773906b0efdefa24a7f2b8eb6985bf37` then the request will be passed to the origin. If the
 JA3 fingerprint value is not present or it matches `06c5844b8643740902c45410712542e0` the
 WAFv2 Web ACL will block the request, responding with a Status 403 response.
+
+## Architecture
+
+![architecture](architecture.png)
